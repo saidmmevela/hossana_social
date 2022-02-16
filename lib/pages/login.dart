@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hossana_social/pages/signup.dart';
 import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
@@ -134,6 +135,20 @@ class _LoginState extends State<Login> {
                       }
                       
                     ), 
+                    SizedBox(height: 15),
+                    Text("Don't have an account?",style: TextStyle(color:Colors.blueGrey[300]),),
+                    TextButton(
+                      child: Text("Sign up",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blue,fontSize: 15),),
+                      
+                      onPressed: (){
+                          //route();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => signup()));
+                      },
+                    
+                    )
                   ],
                 ),
               )
