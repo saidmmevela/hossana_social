@@ -4,7 +4,10 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hossana_social/pages/User.dart';
 import 'package:http/http.dart' as http;
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class signup extends StatefulWidget {
   
@@ -24,6 +27,35 @@ class _signupState extends State<signup> {
  dynamic _value = 1;
  dynamic _value1 = 1;
  bool load =false;
+
+  List<User> Register=[];
+
+ late Box box1;
+ //late Box<User> box2;
+ void register()async{
+      
+     //var reg=box2.getAt(0);
+     //Box<User> box2=Hive.box<User>(HiveBoxes.registers);
+      var reg=box1.get("registers",defaultValue:Register);
+      reg.add(User(fullname: _fullNameController.text, username: _usernameController.text, password: _passwordController.text, id: '${_usernameController.text}${_passwordController.text}'));
+      box1.put("registers",reg);
+     //await box2.add(User(fullname: _fullNameController.text, username: _usernameController.text, password: _passwordController.text, id: '${_usernameController.text}${_passwordController.text}'));
+      print("isLogged: ${Register.length}");
+      //print("isLogged: ${reg}");
+      //print("isLogged: ${box2.values.length}");
+      print("isLogged: ${Register[0].fullname}");
+  }
+
+  void createBox() async {
+    box1 = await Hive.openBox('user');
+   // box2 = await Hive.openBox<User>('registers');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    createBox();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +232,12 @@ class _signupState extends State<signup> {
                       onPressed: () async {
                         if(_formKey.currentState!.validate()){
                             // print("object");
-                            //login();
+                            setState(() {
+                              Register=[
+                                User(fullname: _fullNameController.text, username: _usernameController.text, password: _passwordController.text, id: '1')
+                              ];
+                            });
+                            register();
                             
                         }
                         

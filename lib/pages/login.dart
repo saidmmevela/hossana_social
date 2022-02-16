@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hossana_social/pages/User.dart';
 import 'package:hossana_social/pages/signup.dart';
 import 'package:http/http.dart' as http;
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Login extends StatefulWidget {
   const Login({ Key? key }) : super(key: key);
@@ -16,17 +19,39 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   final _formKey =GlobalKey<FormState>();
-
+late Box box1;
+late Box<User> box2;
+//List<User> Register=[];
    //formfield controller variables;
   TextEditingController _username = TextEditingController();
   TextEditingController _password = TextEditingController();
 
   void login()async{
-      
-      
+      var reg =box1.get('registers');
+      var contain =reg.where((element)=>element.username == _username.text);
+      if(contain.isEmpty){
+        print("no match");
+      }else{
+        print("match");
+        box1.put('isLogged', true);
+        box1.put('username', _username.text);
+      }
+      //box1.put('Fname', []);
+      //box1.put('username', "username");
+      //box1.put('isLogged', true);
+      //print("isLogged: ${box1.get('isLogged')}");
   }
     
+  void createBox() async {
+    box1 = await Hive.openBox('user');
+    box2 = await Hive.openBox<User>('registers');
+  }
 
+  @override
+  void initState() {
+    super.initState();
+    createBox();
+  }
 
   @override
   Widget build(BuildContext context) {
