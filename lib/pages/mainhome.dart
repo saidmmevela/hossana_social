@@ -1,7 +1,11 @@
 //Author said mmevela
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hossana_social/custom-buttom_bar/custom_animated_bottom_bar.dart';
+
+import 'package:hossana_social/pages/home.dart';
 
 class MainHome extends StatefulWidget {
   const MainHome({ Key? key }) : super(key: key);
@@ -13,10 +17,7 @@ class MainHome extends StatefulWidget {
 class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
 
    List<Widget> _pages=<Widget>[
-     Icon(
-       Icons.home_outlined,
-       size: 150,
-     ),
+     Home(),
      Icon(
        Icons.search_outlined,
        size: 150,
@@ -55,6 +56,8 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
       _selectedIndex=index;
     });
   }
+
+  
   @override
   void initState() {
     super.initState();
@@ -62,8 +65,19 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
+      appBar: AppBar(
+        title:Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Icon(Icons.menu,color: Colors.grey,size: 35,),
+            Icon(Icons.history_edu_outlined,color: Colors.black,size: 35,),
+            Icon(Icons.chat_outlined,color: Colors.grey,size: 35,)
+          ],
+        ),
+        backgroundColor: Colors.white,
+      ),
       body:Center(
           child:_pages.elementAt(_currentIndex),
       ),

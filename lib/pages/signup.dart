@@ -44,6 +44,24 @@ class _signupState extends State<signup> {
       //print("isLogged: ${reg}");
       //print("isLogged: ${box2.values.length}");
       print("isLogged: ${Register[0].fullname}");
+      showDialog<String>(
+        context: context, 
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: const Text("Success Signup"),
+            //content: const Text("Welcome"),
+            actions: <Widget>[
+              TextButton(
+              onPressed:(){
+                Navigator.of(context).pop();
+                Navigator.pop(context);
+              }, 
+              child: const Text("ok")),
+            ],
+          );
+        }
+      );
   }
 
   void createBox() async {
