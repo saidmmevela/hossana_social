@@ -46,3 +46,16 @@ class Post {
   }
   //Incoming({required this.id,required this.name,required this.address,required this.email,required this.contact});
 }
+
+class Status {
+  String name;
+  int id;
+  Status({required this.name, required this.id});
+}
+
+class Story {
+  String name;
+  String avater;
+  int id;
+  Story({required this.name,required this.avater, required this.id});
+}

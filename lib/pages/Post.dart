@@ -164,8 +164,80 @@ class _PostsState extends State<Posts> {
                         ),
                       ),
                     ),
+                ),
+              Column(
+                children: List.generate(4, (index){
+                  //var owner=comments[index].owner;
+                  return
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration:BoxDecoration(
+                        color: Colors.blueGrey[50],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius:20,
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(50),
+                                                child: Image(
+                                                  image:AssetImage("images/pexels-camille-robinson-10822203.jpg"),
+                                              height:50,
+                                              width:50,
+                                              fit: BoxFit.cover,
+                                            
+                                            ),
+                                            ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(index==0?"John Doe":index==2?"Jane Doe":"James Doe",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey[700])),
+                                              Text(
+                                                  "1 Hour ago",
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    
+                                                  ),
+                                              ),
+                                             ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                    "nice",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      
+                                    ),
+                                ),
+                              ],
+                            )
+                          
+                        ) ,
+                      ),
+                    );
+                }
                 )
-              
+              )
             
            ],
         ),

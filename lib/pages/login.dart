@@ -31,6 +31,23 @@ late Box<User> box2;
       var contain =reg.where((element)=>element.username == _username.text);
       if(contain.isEmpty){
         print("no match");
+        showDialog<String>(
+        context: context, 
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: const Text("Wrong username/password"),
+            //content: const Text("Welcome"),
+            actions: <Widget>[
+              TextButton(
+              onPressed:(){
+                Navigator.of(context).pop();
+              }, 
+              child: const Text("ok")),
+            ],
+          );
+        }
+      );
       }else{
         print("match");
         box1.put('isLogged', true);

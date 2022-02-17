@@ -4,7 +4,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hossana_social/custom-buttom_bar/custom_animated_bottom_bar.dart';
-
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hossana_social/pages/home.dart';
 
 class MainHome extends StatefulWidget {
@@ -16,25 +17,7 @@ class MainHome extends StatefulWidget {
 
 class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
 
-   List<Widget> _pages=<Widget>[
-     Home(),
-     Icon(
-       Icons.search_outlined,
-       size: 150,
-     ),
-     Icon(
-       Icons.add_box_outlined,
-       size: 150,
-     ),
-     Icon(
-       Icons.favorite_outline,
-       size: 150,
-     ),
-     Icon(
-       Icons.person_outline,
-       size: 150,
-     ),
-   ];
+  
 
    int _currentIndex = 0;
 
@@ -56,11 +39,19 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
       _selectedIndex=index;
     });
   }
+  late Box box1;
+  
+  void createBox() async {
+    box1 = await Hive.openBox('user');
+    
+  }
 
+  
   
   @override
   void initState() {
     super.initState();
+    createBox();
     _tabController = TabController(length: 5, vsync: this);
   }
 
@@ -78,12 +69,64 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
         ),
         backgroundColor: Colors.white,
       ),
-      body:Center(
-          child:_pages.elementAt(_currentIndex),
-      ),
+      body:SafeArea(child:getBody(),),
         bottomNavigationBar: _buildBottomBar(),
     );
 
+  }
+
+  getBody() {
+     
+    List<Widget> pages = [
+     Home(),
+     Center(
+       child: Icon(
+         Icons.search_outlined,
+         size: 150,
+       ),
+     ),
+     Center(
+       child: Icon(
+         Icons.add_box_outlined,
+         size: 150,
+       ),
+     ),
+     Center(
+       child: Icon(
+         Icons.favorite_outline,
+         size: 150,
+       ),
+     ),
+     Center(
+       child: Container(
+         child: InkWell(
+                  onTap:(){
+                    box1.put('isLogged',false);
+                    box1.delete('username');
+                    print("object");
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration:BoxDecoration(
+                        color: Colors.blueGrey[50],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(18),
+                        child: Text("Log Out",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey[700])),
+                      ),
+                    ),
+                  ),
+                ),
+       ),
+     )
+      
+    ];
+    return IndexedStack(
+      index: _currentIndex,
+      children: pages,
+    );
   }
   
   Widget _buildBottomBar(){

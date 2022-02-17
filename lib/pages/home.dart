@@ -1,6 +1,7 @@
 //Author said mmevela
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hossana_social/pages/Post.dart';
@@ -17,10 +18,23 @@ class _HomeState extends State<Home> {
 
   final _formKey =GlobalKey<FormState>();
 
-  TextEditingController _username = TextEditingController();
-  TextEditingController _password = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
 
   List<Post> posts=[];
+  bool ed=false;
+  List<Status> _option = [
+    Status(id:1, name:"Delete"),
+    Status(id:2, name:"Edit")
+  ];
+
+  List<Story> story=[
+      Story(avater: "images/pexels-10725223.jpg",name: "Jane",id: 1),
+      Story(avater: "images/pexels-rizky-sabriansyah-10919343.jpg",name: "John",id: 2),
+      Story(avater: "images/pexels-jovin-gerald-10840765.jpg",name: "Joyce",id: 3),
+      Story(avater: "images/pexels-arkhod-10985644.jpg",name: "James",id: 4),
+      Story(avater: "images/pexels-10725223.jpg",name: "Jamal",id: 5),
+      Story(avater: "images/pexels-10725223.jpg",name: "Jack",id: 6)
+  ];
 
   void getPost() async{
         String bytes = await rootBundle.loadString('assets/Posts.json');
@@ -36,6 +50,7 @@ class _HomeState extends State<Home> {
     });
 
   }
+  
 
 @override
   void initState() {
@@ -78,7 +93,7 @@ class _HomeState extends State<Home> {
                           ),
                   ),
                   Row(
-                    children:List.generate(5, (index){
+                    children:List.generate(story.length, (index){
                         return
                           Padding(
                             padding: const EdgeInsets.all(4.0),
@@ -96,7 +111,7 @@ class _HomeState extends State<Home> {
                                         padding: const EdgeInsets.all(1.0),
                                         child: ClipRRect(
                                             borderRadius: BorderRadius.circular(15),
-                                              child:Image(image:AssetImage("images/pexels-jovin-gerald-10840765.jpg"),
+                                              child:Image(image:AssetImage(story[index].avater),
                                               width:50,
                                               height:50,
                                               fit: BoxFit.cover,
@@ -106,7 +121,7 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                   ),
-                                  Text("Alice",style:TextStyle(fontSize: 13,fontWeight:FontWeight.bold,))
+                                  Text(story[index].name,style:TextStyle(fontSize: 13,fontWeight:FontWeight.bold,))
                               ],
                             ),
                           );
@@ -189,20 +204,162 @@ class _HomeState extends State<Home> {
                                           ]
                                                 
                                         ),
-                                        Icon(Icons.more_vert,color: Colors.black45,)
+                                        InkWell(
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => CupertinoAlertDialog(
+                                                    //content: Text("Your nationality"),
+                                                    actions: 
+                                                        List.generate(_option.length, (indexi) {
+                                                      return CupertinoActionSheetAction(
+                                                        child:  Text(_option[indexi].name,
+                                                            style:TextStyle(color: Colors.black)
+                                                        ),
+                                                        onPressed: () {
+                                                          if(_option[indexi].name=="Delete"){
+                                                            posts.remove(posts[index]);
+                                                            Navigator.pop(context);
+                                                            setState(() {
+                                                              
+                                                            });
+                                                          }else{
+                                                            //Navigator.pop(context);
+                                                            Navigator.of(context).pop();
+                                                            print("object");
+                                                              setState(() {
+                                                                _descriptionController.text=posts[index].description;
+                                                              });
+                                                              showDialog(
+                                                                  context: context,
+                                                                  builder: (context) => CupertinoAlertDialog(
+                                                                        content: Card(
+                                                                          child: Container(
+                                                                            child: Form(
+                                                                              key:_formKey,
+                                                                              child: TextFormField(
+                                                                                  controller: _descriptionController,
+                                                                                  decoration: const InputDecoration(
+                                                                                      hintText: "Description",
+                                                                                      enabledBorder: OutlineInputBorder(
+                                                                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                                                      borderSide: BorderSide(color: Colors.white),
+                                                                                    ),
+                                                                                    contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                                                                                    
+                                                                                    ),
+                                                                                  validator:(address){
+                                                                                    if(address!.isEmpty){
+                                                                                      return "Please enter Description";
+                                                                                    }
+                                                                                    return null;
+                                                                                  }
+                                                                                ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        actions:[
+                                                                          CupertinoActionSheetAction(
+                                                                            child:  Text("Save",
+                                                                                style:TextStyle(color: Colors.black)
+                                                                            ),
+                                                                            onPressed: () {
+                                                                              setState(() {
+                                                                                posts[index].description=_descriptionController.text;
+                                                                              });
+                                                                              //posts.onch({posts[index].description:_descriptionController.text});
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                          )
+                                                                          
+                                                                    ],
+                                                              ));
+                                                          }
+                                                          //Navigator.pop(context);
+                                                        },
+                                                      );
+                                                      
+                                                    }),
+                                              ));
+                                          },
+                                          child: Icon(Icons.more_vert,color: Colors.black45,)
+                                        )
                                       ],
                                     ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 10,left: 10,top: 4),
-                                child: Text(
-                                    posts[index].description,
-                                    style: TextStyle(
-                                      //fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                            
+                                child: Row(
+                                  children: [
+                                    Stack(
+                                      overflow: Overflow.visible,
+                                      children: <Widget>[
+                                        CircleAvatar(
+                                          radius:12,
+                                          backgroundColor: Colors.white,
+                                          child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(20),
+                                              child: Image(
+                                            image:AssetImage("images/pexels-arkhod-10985644.jpg"),
+                                            height:20,
+                                            width:20,
+                                            fit: BoxFit.cover,
+                                          
                                           ),
+                                          
+                                          ),
+                                          
+                                        ),
+                                        Positioned(
+                                          left:15,
+                                          child: CircleAvatar(
+                                            radius:12,
+                                            backgroundColor: Colors.white,
+                                            child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(20),
+                                                child: Image(
+                                              image:AssetImage("images/pexels-valter-zhara-10989590.jpg"),
+                                              height:20,
+                                              width:20,
+                                              fit: BoxFit.cover,
+                                            
+                                            ),
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left:30,
+                                          child: CircleAvatar(
+                                            radius:12,
+                                            backgroundColor: Colors.white,
+                                            child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(20),
+                                                child: Image(
+                                              image:AssetImage("images/pexels-andrew-neel-11082557.jpg"),
+                                              height:20,
+                                              width:20,
+                                              fit: BoxFit.cover,
+                                            
+                                            ),
+                                            ),
+                                          ),
+                                        ),
+                                        
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left:40),
+                                      child: Text(
+                                          posts[index].description,
+                                          style: TextStyle(
+                                            //fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                                  
+                                                ),
                                       ),
+                                    ),
+                                  ],
+                                ),
                                     ),
                               Center(
                                 child: Padding(
@@ -253,7 +410,7 @@ class _HomeState extends State<Home> {
               }
               )
               ),
-            
+              
            ],
         ),
       ),
