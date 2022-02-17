@@ -11,4 +11,4 @@ $ git clone https://github.com/saidmmevela/hossana_social.git Then, download Vis
 Make sure you have installed flutter on your computer,
 If want you want to test the app, first run flutter devices to check connected devices. Then, you'll have to run:
 
-$ flutter run --no-sound-null-safety
+$ flutter run 

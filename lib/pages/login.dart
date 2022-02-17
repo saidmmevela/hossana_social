@@ -1,11 +1,8 @@
 //Author said mmevela
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hossana_social/pages/User.dart';
 import 'package:hossana_social/pages/signup.dart';
-import 'package:http/http.dart' as http;
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

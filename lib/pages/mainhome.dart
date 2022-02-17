@@ -1,7 +1,5 @@
 //Author said mmevela
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:hossana_social/custom-buttom_bar/custom_animated_bottom_bar.dart';
 import 'package:hive/hive.dart';
@@ -24,21 +22,11 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
    final _inactiveColor = Colors.blueGrey[100]; //variable for the constant color of the inactive tab on the bottom navigation
   final _activeColor= Colors.blue;
 
-  final _navigatorKeys={
-    0:GlobalKey<NavigatorState>(),
-    1:GlobalKey<NavigatorState>(),
-    2:GlobalKey<NavigatorState>(),
-    3:GlobalKey<NavigatorState>()
-  };
+ 
 
-  int _selectedIndex=0;
   late TabController _tabController;
 
-  void _onItemTapped(int index){
-    setState(() {
-      _selectedIndex=index;
-    });
-  }
+
   late Box box1;
   
   void createBox() async {

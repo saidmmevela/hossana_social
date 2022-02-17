@@ -1,6 +1,5 @@
 //Author said mmevela
 
-
 import 'package:flutter/material.dart';
 import 'package:hossana_social/pages/User.dart';
 
@@ -23,9 +22,7 @@ class _PostsState extends State<Posts> {
 
   final _formKey =GlobalKey<FormState>();
 
-  TextEditingController _username = TextEditingController();
-  TextEditingController _password = TextEditingController();
-
+  
   List<Post> posts=[];
 
   
