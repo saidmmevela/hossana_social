@@ -4,13 +4,11 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+First, clone the repository with the 'clone' command, or just download the zip.
 
-A few resources to get you started if this is your first Flutter project:
+$ git clone https://github.com/saidmmevela/hossana_social.git Then, download Visual Studio Code.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Make sure you have installed flutter on your computer,
+If want you want to test the app, first run flutter devices to check connected devices. Then, you'll have to run:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+$ flutter run --no-sound-null-safety
